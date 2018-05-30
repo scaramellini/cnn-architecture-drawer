@@ -1,15 +1,14 @@
 import io
 import sys
+import numpy as np
+import cv2
+from linea import linea_tratteggiata
 
 # Utilizza il file passato come parametro come standard input
 if len(sys.argv) > 1:
     filename = sys.argv[1]
     inp = ''.join(open(filename, "r").readlines())
     sys.stdin = io.StringIO(inp)
-
-import numpy as np
-import cv2
-from linea import linea_tratteggiata
 
 font = cv2.FONT_ITALIC
 
@@ -21,13 +20,12 @@ listaAumento = []
 listaAumentoSotto = []
 listaSolido = []
 
-def creaSolido(listax, listay):
 
+def creaSolido(listax, listay):
     x, y = listax.pop(), listay.pop()
     listax.append(x)
     listay.append(y)
-    x += 200
-    y -= 40
+    x += 150
     listaSolido.append(x)
     listaSolido.append(y)
 
@@ -43,15 +41,14 @@ def creaSolido(listax, listay):
     cv2.fillPoly(img, [pts], (128, 128, 128), lineType=cv2.LINE_AA)
     cv2.polylines(img, [pts], True, (0, 0, 0), lineType=cv2.LINE_AA)
 
-    listaSolido.append(x+100)
-    listaSolido.append(y+220)
+    listaSolido.append(x + 100)
+    listaSolido.append(y + 220)
 
 
-def creaLineeSopra(listax, listay, listaAumento, solido):
+def creaLinee(listax, listay, listaAumento, solido):
     lista2x = listax.copy()
     lista2y = listay.copy()
     dim = len(listax)
-    aumentoSolido = listaAumento.pop()
     for indice in range(dim - 1):
         x, y = listax.pop(), listay.pop()
         x2, y2 = listax.pop(), listay.pop()
@@ -59,199 +56,90 @@ def creaLineeSopra(listax, listay, listaAumento, solido):
         if indice < dim:
             listax.append(x2)
             listay.append(y2)
-        linea_tratteggiata(x, y, x2+aumento, y2, img)
-    if int(solido) == 1:
+        linea_tratteggiata(x - aumento, y, x2, y2, img)
+    if solido == True:
         sy = listaSolido.pop()
         sx = listaSolido.pop()
-        linea_tratteggiata(lista2x[int(nodo)-1] + aumentoSolido, lista2y[int(nodo)-1], sx, sy, img)
-
-
-
-def creaLineeSotto(lix, liy, listaAumentoSotto):
-    li2x = lix.copy()
-    li2y = liy.copy()
-    dim = len(lix)
-    for indice in range(dim - 1):
-        x, y = lix.pop(), liy.pop()
-        x2, y2 = lix.pop(), liy.pop()
-        aumento = listaAumentoSotto.pop()
-        if indice < dim:
-            lix.append(x2)
-            liy.append(y2)
-        linea_tratteggiata(x-aumento, y, x2, y2, img)
-    if int(solido) == 1:
-        sy = listaSolido.pop()
-        sx = listaSolido.pop()
-        linea_tratteggiata(li2x[int(nodo)-1], li2y[int(nodo)-1], sx, sy, img)
+        linea_tratteggiata(lista2x[int(nodo) - 1], lista2y[int(nodo) - 1], sx, sy, img)
 
 
 def crea(nodi, solido, dim):
     Px, Py = -140, 50
     centramento = 0
     for ogni in range(int(nodi)):
+        Px += 150
+        x, y = Px, Py
         num = input("inserisci il numero di elementi da disegnare  ")
-        lato = input("inserisci la dimensione degli elementi  ")
+        base = input("inserisci la dimensione degli elementi  ")
+        altezza = input("inserisci l'altezza degli elementi  ")
+        info = input("informazioni addizionali:  ")
         if int(nodi) > 1:
             centramento = round(dim * int(nodi) / ((int(nodi) / 2) + 1))
-        Px += 150
-        aumento = int(lato)*2
-        listaAumento.append(aumento)
-        x, y = Px, Py
-        cv2.putText(img, num + '@' + lato + '*' + lato, (x, y - 20 + centramento), font, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
+        aumentoBase = int(base) * 2
+        aumentoAltezza = int(altezza) * 2
+        listaAumento.append(aumentoBase)
+        cv2.putText(img, num + '@' + base + '*' + altezza, (x, y - 20 + centramento), font, 0.5, (0, 0, 0), 1,
+                    cv2.LINE_AA)
 
-        if int(num) < 10:
+        if int(num) >= 10:
+            num = 10
 
-            if int(num) % 2 == 0:
-
-                for each in range(int(num)):
-
-                    if each % 2 == 0:
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=-1,
-                                      color=(128, 128, 128))
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=1,
-                                      color=(0, 0, 0))
-
-                        if each == 0:
-                            listax.append(x)
-                            listay.append(y + centramento)
-
-                        if each == int(num) - 1:
-                            lix.append(x + aumento)
-                            liy.append(y + aumento + centramento)
-
-                        x += 4
-                        y += 7
-                    else:
-
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=-1,
-                                      color=(255, 255, 255))
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=1,
-                                      color=(0, 0, 0))
-
-                        if each == int(num) - 1:
-                            lix.append(x + aumento)
-                            liy.append(y + aumento + centramento)
-
-                        x += 4
-                        y += 7
-            else:
-                for each in range(int(num)):
-
-                    if each % 2 == 0:
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=-1,
-                                      color=(255, 255, 255))
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=1,
-                                      color=(0, 0, 0))
-
-                        if each == 0:
-                            listax.append(x)
-                            listay.append(y + centramento)
-
-                        if each == int(num) - 1:
-                            lix.append(x + aumento)
-                            liy.append(y + aumento + centramento)
-
-                        x += 4
-                        y += 7
-                    else:
-
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=-1,
-                                      color=(128, 128, 128))
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=1,
-                                      color=(0, 0, 0))
-
-                        if each == int(num) - 1:
-                            lix.append(x + aumento)
-                            liy.append(y + aumento + centramento)
-
-                        x += 4
-                        y += 7
+        if int(num) % 2 == 0:
+            color1 = (128, 128, 128)
+            color2 = (255, 255, 255)
         else:
-            if int(num) % 2 == 0:
+            color2 = (128, 128, 128)
+            color1 = (255, 255, 255)
 
-                for each in range(10):
+        for each in range(int(num)):
 
-                    if each % 2 == 0:
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=-1,
-                                      color=(128, 128, 128))
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=1,
-                                      color=(0, 0, 0))
-
-                        if each == 0:
-                            listax.append(x)
-                            listay.append(y + centramento)
-                        if each == 9:
-                            lix.append(x + aumento)
-                            liy.append(y + aumento + centramento)
-
-                        x += 4
-                        y += 7
-
-                    else:
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=-1,
-                                      color=(255, 255, 255))
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=1,
-                                      color=(0, 0, 0))
-
-                        if each == 9:
-                            lix.append(x + aumento)
-                            liy.append(y + aumento + centramento)
-
-                        x += 4
-                        y += 7
+            if each % 2 == 0:
+                cv2.rectangle(img, (x, y + centramento), (x + aumentoBase, y + aumentoAltezza + centramento),
+                              thickness=-1, color=color1)
+                cv2.rectangle(img, (x, y + centramento), (x + aumentoBase, y + aumentoAltezza + centramento),
+                              thickness=1, color=(0, 0, 0))
             else:
-                for each in range(10):
 
-                    if each % 2 == 0:
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=-1,
-                                      color=(255, 255, 255))
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=1,
-                                      color=(0, 0, 0))
+                cv2.rectangle(img, (x, y + centramento), (x + aumentoBase, y + aumentoAltezza + centramento),
+                              thickness=-1, color=color2)
+                cv2.rectangle(img, (x, y + centramento), (x + aumentoBase, y + aumentoAltezza + centramento),
+                              thickness=1, color=(0, 0, 0))
 
-                        if each == 0:
-                            listax.append(x)
-                            listay.append(y + centramento)
-                        if each == 9:
-                            lix.append(x + aumento)
-                            liy.append(y + aumento + centramento)
+            if each == 0:
+                listax.append(x + aumentoBase)
+                listay.append(y + centramento)
 
-                        x += 4
-                        y += 7
+            if each == int(num) - 1:
+                lix.append(x + aumentoBase)
+                liy.append(y + aumentoAltezza + centramento)
 
-                    else:
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=-1,
-                                      color=(128, 128, 128))
-                        cv2.rectangle(img, (x, y + centramento), (x + aumento, y + aumento + centramento), thickness=1,
-                                      color=(0, 0, 0))
+            x += 4
+            y += 7
 
-                        if each == 9:
-                            lix.append(x + aumento)
-                            liy.append(y + aumento + centramento)
+        cv2.putText(img, info, (x, y + aumentoAltezza + centramento + 20), font, 0.5, (0, 0, 0), 1,
+                    cv2.LINE_AA)
 
-                        x += 4
-                        y += 7
-
-    if int(solido) == 1:
+    if solido == True:
         creaSolido(listax, listay)
 
     listaAumentoSotto = listaAumento.copy()
-    creaLineeSotto(lix,liy,listaAumentoSotto)
-    creaLineeSopra(listax,listay,listaAumento,solido)
+    creaLinee(lix, liy, listaAumentoSotto, solido)
+    creaLinee(listax, listay, listaAumento, solido)
 
-    return lato
+    return base
 
 
 nodo = input("inserisci il numero di nodi da disegnare  ")
-solido = input("inserisci 1 se è presente un solido  ")
+solido = bool(input("inserisci 1 se è presente un solido  "))
 dim = 150
 
 img = np.zeros((3000, 3000, 1), np.uint8)
 img.fill(255)
 
-lato = crea(nodo, solido, dim)
+base = crea(nodo, solido, dim)
 
 cv2.imshow('image', img)
-cv2.resizeWindow('image', (dim * int(nodo)*3, dim * int(nodo)*3))  #dim * int(nodo) + int(lato)
+cv2.resizeWindow('image', (dim * int(nodo) * 3, dim * int(nodo) * 3))
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
