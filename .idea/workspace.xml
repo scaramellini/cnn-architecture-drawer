@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/prova disegno neurale.py" description="x, y = dim * int(nodo) + int(lato), int(leggiy)" line="24" />
+    <bookmark url="file://$PROJECT_DIR$/prova disegno neurale.py" description="x, y = dim * int(nodo) + int(lato), int(leggiy)" line="25" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ccaa656-1849-4115-a792-dabeb1ff3004" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Screenshot (8).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/input" beforeDir="false" afterPath="$PROJECT_DIR$/input" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dotted.py" beforeDir="false" afterPath="$PROJECT_DIR$/dotted.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prova disegno neurale.py" beforeDir="false" afterPath="$PROJECT_DIR$/prova disegno neurale.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,8 +24,8 @@
       <file leaf-file-name="prova disegno neurale.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/prova disegno neurale.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1958">
-              <caret line="89" column="13" lean-forward="true" selection-start-line="89" selection-start-column="13" selection-end-line="89" selection-end-column="13" />
+            <state relative-caret-position="116">
+              <caret line="48" column="52" lean-forward="true" selection-start-line="48" selection-start-column="52" selection-end-line="48" selection-end-column="52" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -39,6 +38,18 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="484">
               <caret line="22" column="1" lean-forward="true" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dotted.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dotted.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="352">
+              <caret line="50" column="22" selection-start-line="50" selection-start-column="22" selection-end-line="50" selection-end-column="22" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -74,8 +85,9 @@
       <list>
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/linea.py" />
-        <option value="$PROJECT_DIR$/dotted.py" />
         <option value="$PROJECT_DIR$/input" />
+        <option value="$PROJECT_DIR$/dotted.py" />
+        <option value="$PROJECT_DIR$/tentativo linea tratteggiata.py" />
         <option value="$PROJECT_DIR$/prova disegno neurale.py" />
       </list>
     </option>
@@ -178,14 +190,34 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="tentativo linea tratteggiata" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="prova disegno" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tentativo linea tratteggiata.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <list>
       <item itemvalue="Python.disegno con input da file" />
       <item itemvalue="Python.main" />
       <item itemvalue="Python.prova disegno neurale" />
+      <item itemvalue="Python.tentativo linea tratteggiata" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.prova disegno neurale" />
+        <item itemvalue="Python.tentativo linea tratteggiata" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
@@ -216,14 +248,14 @@
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49526387" weight="0.1311787" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49526387" visible="true" weight="0.1311787" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49746513" weight="0.3184282" />
       <window_info anchor="bottom" auto_hide="true" id="Event Log" order="7" sideWeight="0.50190115" side_tool="true" type="SLIDING" weight="0.3179973" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3292683" />
       <window_info anchor="bottom" id="Python Console" order="7" sideWeight="0.49873257" weight="0.3401084" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49809885" visible="true" weight="0.16124661" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49809885" visible="true" weight="0.23441735" />
       <window_info id="Structure" order="1" sideWeight="0.5047361" side_tool="true" weight="0.25285172" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49936628" weight="0.0" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49936628" weight="0.19376694" />
       <window_info id="Favorites" order="2" sideWeight="0.5010101" side_tool="true" weight="0.25285172" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.2804878" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -259,13 +291,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/prova disegno neurale.py</url>
-          <line>66</line>
-          <option name="timeStamp" value="51" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -273,7 +298,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="52" />
+      <option name="time" value="53" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -608,13 +633,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/input">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="22" column="1" lean-forward="true" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/linea.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1782">
@@ -622,20 +640,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tentativo linea tratteggiata.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/dotted.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-440">
-          <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
+        <state relative-caret-position="352">
+          <caret line="50" column="22" selection-start-line="50" selection-start-column="22" selection-end-line="50" selection-end-column="22" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/input">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="22" column="1" lean-forward="true" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/prova disegno neurale.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1958">
-          <caret line="89" column="13" lean-forward="true" selection-start-line="89" selection-start-column="13" selection-end-line="89" selection-end-column="13" />
+        <state relative-caret-position="116">
+          <caret line="48" column="52" lean-forward="true" selection-start-line="48" selection-start-column="52" selection-end-line="48" selection-end-column="52" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

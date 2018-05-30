@@ -25,7 +25,6 @@ def line_iterator(p1x, p1y, p2x, p2y):
     else:
         offsety = p2y
     cv2.line(matrix, (p1x - offsetx, p1y - offsety), (p2x - offsetx, p2y - offsety), 0, lineType=cv2.LINE_AA)
-    cv2.imshow('mat', matrix)
     ritorno = []
     for i, riga in enumerate(matrix):
         for j, pixel in enumerate(riga):
@@ -35,16 +34,8 @@ def line_iterator(p1x, p1y, p2x, p2y):
 
 
 def dotted_line(p1x, p1y, p2x, p2y, img):
-    '''
-    Disegnare una linea
-    :param p1x:
-    :param p1y:
-    :param p2x:
-    :param p2y:
-    :param img:
-    :return:
-    '''
     iteratore = line_iterator(p1x, p1y, p2x, p2y)
+
 
     if p1x < p2x:
         offsetx = p1x
@@ -58,12 +49,6 @@ def dotted_line(p1x, p1y, p2x, p2y, img):
 
     for indice, pixel in enumerate(iteratore):
         if indice % 24 < 18:
-            print(' x -> ', pixel[0], 'y -> ', pixel[1])
-            print(' p1x -> ', offsetx, 'p1y -> ', offsety)
-            try:
-                indicex = pixel[0] + offsetx
-                indicey = pixel[1] + offsety
-                img[indicex][indicey] = 255 - pixel[2]
-            except:
-                pass
-
+            indicex = pixel[0] + offsetx
+            indicey = pixel[1] + offsety
+            img[indicex][indicey] = pixel[2]
