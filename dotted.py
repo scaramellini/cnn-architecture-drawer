@@ -9,7 +9,7 @@ def line_iterator(p1x, p1y, p2x, p2y):
     :param p1y: coordinata y del primo punto
     :param p2x: coordinata x del secondo punto
     :param p2y: coordinata y del secondo punto
-    :return: lista iterbile con i punti e la loro intensita' di una linea AA
+    :return: lista iterabile con i punti e la loro intensita' di una linea AA
     '''
     dx = abs(p1x - p2x)
     dy = abs(p1y - p2y)

@@ -3,6 +3,7 @@ import sys
 import numpy as np
 import cv2
 from linea import linea_tratteggiata
+from tenta
 
 # Utilizza il file passato come parametro come standard input
 if len(sys.argv) > 1:
