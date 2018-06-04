@@ -2,145 +2,245 @@ import io
 import sys
 import numpy as np
 import cv2
-from linea import linea_tratteggiata
-from tenta
+import json
 
-# Utilizza il file passato come parametro come standard input
-if len(sys.argv) > 1:
-    filename = sys.argv[1]
-    inp = ''.join(open(filename, "r").readlines())
-    sys.stdin = io.StringIO(inp)
+with open("dati.json", "r") as leggi:
+    contenutojson = json.load(leggi)
 
-font = cv2.FONT_ITALIC
+    font = cv2.FONT_ITALIC
 
-listax = []
-listay = []
-lix = []
-liy = []
-listaAumento = []
-listaAumentoSotto = []
-listaSolido = []
+    nodo = 0
+    solido = 0
+    info = []
+    listax = []
+    listay = []
+    lix = []
+    liy = []
+    listaAumento = []
+    listaAumentoSotto = []
+    listaSolidoSopra = []
+    listaSolidoSotto = []
+    lati = []
 
+    def disegnaRigheSolido(lista2x, lista2y, listaSolido, lato, pos, prolunga):
+        listaScritte = []
+        pas = True
+        for i in range(int(solido)):
+            aumento = prolunga
 
-def creaSolido(listax, listay):
-    x, y = listax.pop(), listay.pop()
-    listax.append(x)
-    listay.append(y)
-    x += 150
-    listaSolido.append(x)
-    listaSolido.append(y)
+            if pos == True and pas == True:
+                for each in range(len(contenutojson)):
+                    if contenutojson[each]["type"] == "connectionSolid":
+                        info = contenutojson[each]["bottomText"]
+                        listaScritte.append(info)
+                listaScritte.reverse()
+                pas = False
 
-    pts = np.array([[x, y], [x + 20, y], [x + 120, y + 200], [x + 100, y + 200]], np.int32)
-    cv2.fillPoly(img, [pts], (169, 169, 169), lineType=cv2.LINE_AA)
-    cv2.polylines(img, [pts], True, (0, 0, 0), lineType=cv2.LINE_AA)
+            if pos == False and pas == True:
+                for each in range(len(contenutojson)):
+                    if contenutojson[each]["type"] == "solid":
+                        info = contenutojson[each]["upperText"]
+                        info.reverse()
+                        listaScritte.append(info)
+                listaScritte.reverse()
+                pas = False
 
-    pts = np.array([[x + 100, y + 200], [x + 120, y + 200], [x + 120, y + 220], [x + 100, y + 220]], np.int32)
-    cv2.fillPoly(img, [pts], (169, 169, 169), lineType=cv2.LINE_AA)
-    cv2.polylines(img, [pts], True, (0, 0, 0), lineType=cv2.LINE_AA)
+            if i == int(solido) - 1:
+                sy = listaSolido.pop()
+                sx = listaSolido.pop()
+                for each in range(len(listaScritte[i])):
+                    if pos == False:
+                        aumento -= 15
+                        cv2.putText(img, listaScritte[i][each], (sx, sy + aumento), font, 0.45, (0, 0, 0), 1,
+                                    cv2.LINE_AA)
+                    else:
+                        aumento += 15
+                        cv2.putText(img, listaScritte[i][each], (lista2x[nodo-1] , lista2y[nodo-1] + aumento), font, 0.45, (0, 0, 0), 1,
+                                    cv2.LINE_AA)
 
-    pts = np.array([[x, y], [x + 100, y + 200], [x + 100, y + 220], [x, y + 20]], np.int32)
-    cv2.fillPoly(img, [pts], (128, 128, 128), lineType=cv2.LINE_AA)
-    cv2.polylines(img, [pts], True, (0, 0, 0), lineType=cv2.LINE_AA)
-
-    listaSolido.append(x + 100)
-    listaSolido.append(y + 220)
-
-
-def creaLinee(listax, listay, listaAumento, solido):
-    lista2x = listax.copy()
-    lista2y = listay.copy()
-    dim = len(listax)
-    for indice in range(dim - 1):
-        x, y = listax.pop(), listay.pop()
-        x2, y2 = listax.pop(), listay.pop()
-        aumento = listaAumento.pop()
-        if indice < dim:
-            listax.append(x2)
-            listay.append(y2)
-        linea_tratteggiata(x - aumento, y, x2, y2, img)
-    if solido == True:
-        sy = listaSolido.pop()
-        sx = listaSolido.pop()
-        linea_tratteggiata(lista2x[int(nodo) - 1], lista2y[int(nodo) - 1], sx, sy, img)
-
-
-def crea(nodi, solido, dim):
-    Px, Py = -140, 50
-    centramento = 0
-    for ogni in range(int(nodi)):
-        Px += 150
-        x, y = Px, Py
-        num = input("inserisci il numero di elementi da disegnare  ")
-        base = input("inserisci la dimensione degli elementi  ")
-        altezza = input("inserisci l'altezza degli elementi  ")
-        info = input("informazioni addizionali:  ")
-        if int(nodi) > 1:
-            centramento = round(dim * int(nodi) / ((int(nodi) / 2) + 1))
-        aumentoBase = int(base) * 2
-        aumentoAltezza = int(altezza) * 2
-        listaAumento.append(aumentoBase)
-        cv2.putText(img, num + '@' + base + '*' + altezza, (x, y - 20 + centramento), font, 0.5, (0, 0, 0), 1,
-                    cv2.LINE_AA)
-
-        if int(num) >= 10:
-            num = 10
-
-        if int(num) % 2 == 0:
-            color1 = (128, 128, 128)
-            color2 = (255, 255, 255)
-        else:
-            color2 = (128, 128, 128)
-            color1 = (255, 255, 255)
-
-        for each in range(int(num)):
-
-            if each % 2 == 0:
-                cv2.rectangle(img, (x, y + centramento), (x + aumentoBase, y + aumentoAltezza + centramento),
-                              thickness=-1, color=color1)
-                cv2.rectangle(img, (x, y + centramento), (x + aumentoBase, y + aumentoAltezza + centramento),
-                              thickness=1, color=(0, 0, 0))
+                cv2.line(img, (lista2x[int(nodo) - 1], lista2y[int(nodo) - 1]), (sx, sy), (0, 0, 0),
+                         lineType=cv2.LINE_AA)
             else:
-
-                cv2.rectangle(img, (x, y + centramento), (x + aumentoBase, y + aumentoAltezza + centramento),
-                              thickness=-1, color=color2)
-                cv2.rectangle(img, (x, y + centramento), (x + aumentoBase, y + aumentoAltezza + centramento),
-                              thickness=1, color=(0, 0, 0))
-
-            if each == 0:
-                listax.append(x + aumentoBase)
-                listay.append(y + centramento)
-
-            if each == int(num) - 1:
-                lix.append(x + aumentoBase)
-                liy.append(y + aumentoAltezza + centramento)
-
-            x += 4
-            y += 7
-
-        cv2.putText(img, info, (x, y + aumentoAltezza + centramento + 20), font, 0.5, (0, 0, 0), 1,
-                    cv2.LINE_AA)
-
-    if solido == True:
-        creaSolido(listax, listay)
-
-    listaAumentoSotto = listaAumento.copy()
-    creaLinee(lix, liy, listaAumentoSotto, solido)
-    creaLinee(listax, listay, listaAumento, solido)
-
-    return base
+                sy = listaSolido.pop()
+                sx = listaSolido.pop()
+                sy2 = listaSolido.pop()
+                sx2 = listaSolido.pop()
+                listaSolido.append(sx2)
+                listaSolido.append(sy2)
+                for each in range(len(listaScritte[i])):
+                    if pos == False:
+                        aumento -= 15
+                        cv2.putText(img, listaScritte[i][each], (sx, sy + aumento), font, 0.45, (0, 0, 0), 1,
+                                    cv2.LINE_AA)
+                    else:
+                        aumento += 15
+                        cv2.putText(img, listaScritte[i][each], (sx2 + int(lato[i + 1]), sy + aumento), font, 0.45, (0, 0, 0), 1,
+                                    cv2.LINE_AA)
+                cv2.line(img, (sx, sy), (sx2, sy2), (0, 0, 0),
+                         lineType=cv2.LINE_AA)
 
 
-nodo = input("inserisci il numero di nodi da disegnare  ")
-solido = bool(input("inserisci 1 se è presente un solido  "))
-dim = 150
+    def creaSolido(listax, listay):
+        x, y = listax.pop(), listay.pop()
+        listax.append(x)
+        listay.append(y)
+        salvax = x
+        for k in range(len(contenutojson)):
+            if contenutojson[k]["type"] == "solid":
+                salvax += 150
+                lato = int(contenutojson[k]["side"])/2
+                lati.append(lato + 20)
+                lunghezza = int(contenutojson[k]["lenght"])
+                listaSolidoSopra.append(salvax)
+                listaSolidoSopra.append(y)
 
-img = np.zeros((3000, 3000, 1), np.uint8)
-img.fill(255)
+                pts = np.array([[salvax, y], [salvax + lato, y], [salvax + lato + 30, y + lunghezza], [salvax + 30, y + lunghezza]],
+                               np.int32)
+                cv2.fillPoly(img, [pts], (169, 169, 169), lineType=cv2.LINE_AA)
+                cv2.polylines(img, [pts], True, (0, 0, 0), lineType=cv2.LINE_AA)
 
-base = crea(nodo, solido, dim)
+                pts = np.array(
+                    [[salvax + 30, y + lunghezza], [salvax + lato + 30, y + lunghezza], [salvax + lato + 30, y + lunghezza + 20],
+                     [salvax + 30, y + lunghezza + 20]],
+                    np.int32)
+                cv2.fillPoly(img, [pts], (169, 169, 169), lineType=cv2.LINE_AA)
+                cv2.polylines(img, [pts], True, (0, 0, 0), lineType=cv2.LINE_AA)
 
-cv2.imshow('image', img)
-cv2.resizeWindow('image', (dim * int(nodo) * 3, dim * int(nodo) * 3))
+                pts = np.array([[salvax, y], [salvax + 30, y + lunghezza], [salvax + 30, y + lunghezza + 20], [salvax, y + 20]],
+                               np.int32)
+                cv2.fillPoly(img, [pts], (128, 128, 128), lineType=cv2.LINE_AA)
+                cv2.polylines(img, [pts], True, (0, 0, 0), lineType=cv2.LINE_AA)
 
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+                listaSolidoSotto.append(salvax + 30)
+                listaSolidoSotto.append(y + lunghezza + 20)
+        return lati
+
+
+    def creaLinee(listax, listay, listaAumento, solido):
+        dim = len(listax)
+        for indice in range(dim - 1):
+            x, y = listax.pop(), listay.pop()
+            x2, y2 = listax.pop(), listay.pop()
+            aumento = listaAumento.pop()
+            if indice < dim:
+                listax.append(x2)
+                listay.append(y2)
+            cv2.line(img, (x - aumento, y), (x2, y2), (0, 0, 0), lineType=cv2.LINE_AA)
+
+
+    def crea(nodi, solid, dim):
+        listaScritte = []
+        Px, Py = 10, 50
+        centramento = 0
+        for ogni in range(len(contenutojson)):
+
+            for each in range(len(contenutojson)):
+                if contenutojson[each]["type"] == "connection":
+                    listaScritte.append( contenutojson[each]["bottomText"])
+
+            if contenutojson[ogni]["type"] == "planar":
+                riduci = 20
+                info = contenutojson[ogni]["upperText"]
+                info.reverse()
+                x, y = Px, Py
+                num = contenutojson[ogni]["layers"]
+                base = contenutojson[ogni]["width"]
+                altezza = contenutojson[ogni]["height"]
+                if int(nodi) > 1:
+                    centramento = round(dim * int(nodi) / ((int(nodi) / 2) + 1))
+                aumentoBase = int(base)
+                aumentoAltezza = int(altezza)
+                listaAumento.append(aumentoBase)
+
+                for a in range(len(info)):
+                    riduci += 15
+                    cv2.putText(img, info[a], (x, y - riduci + centramento), font, 0.5, (0, 0, 0),
+                                1,cv2.LINE_AA)
+
+                if int(num) >= 10:
+                    num = 10
+
+                if int(num) % 2 == 0:
+                    color1 = (128, 128, 128)
+                    color2 = (255, 255, 255)
+                else:
+                    color2 = (128, 128, 128)
+                    color1 = (255, 255, 255)
+
+                for each in range(int(num)):
+
+                    if each % 2 == 0:
+                        cv2.rectangle(img, (x, y + centramento), (x + aumentoBase, y + aumentoAltezza + centramento),
+                                      thickness=-1, color=color1)
+                        cv2.rectangle(img, (x, y + centramento), (x + aumentoBase, y + aumentoAltezza + centramento),
+                                      thickness=1, color=(0, 0, 0))
+                    else:
+
+                        cv2.rectangle(img, (x, y + centramento), (x + aumentoBase, y + aumentoAltezza + centramento),
+                                      thickness=-1, color=color2)
+                        cv2.rectangle(img, (x, y + centramento), (x + aumentoBase, y + aumentoAltezza + centramento),
+                                      thickness=1, color=(0, 0, 0))
+
+                    if each == 0:
+                        listax.append(x + aumentoBase)
+                        listay.append(y + centramento)
+
+                    if each == int(num) - 1:
+                        lix.append(x + aumentoBase)
+                        liy.append(y + aumentoAltezza + centramento)
+
+                    x += 4
+                    y += 7
+
+                Px = x + aumentoBase + 50
+
+        if len(liy) == 1:
+            cv2.putText(img, listaScritte[0], (listax[0], liy[0] + 50), font, 0.5, (0, 0, 0), 1,
+                        cv2.LINE_AA)
+        else:
+            for i in range(len(liy) - 1):
+                prolunga = 50
+                if liy[i] >= liy[i + 1]:
+                    for stringhe in range(len(listaScritte[i])):
+                        prolunga += 15
+                        cv2.putText(img, listaScritte[i][stringhe], (lix[i], liy[i] + prolunga), font, 0.45, (0, 0, 0), 1,
+                                cv2.LINE_AA)
+                else:
+                    for stringhe in range(len(listaScritte[i])):
+                        prolunga += 15
+                        cv2.putText(img, listaScritte[i][stringhe], (lix[i], liy[i] + prolunga), font, 0.45, (0, 0, 0), 1,
+                                cv2.LINE_AA)
+            for stringhe in range(len(listaScritte[i])-2):
+                prolunga += 15
+                cv2.putText(img, listaScritte[i][stringhe], (lix[i], liy[i] + prolunga), font, 0.45, (0, 0, 0), 1,
+                            cv2.LINE_AA)
+
+        if solid == True:
+            lato = creaSolido(listax, listay)
+            disegnaRigheSolido(listax, listay, listaSolidoSopra, lato, pos=False, prolunga =0)
+            disegnaRigheSolido(lix, liy, listaSolidoSotto, lato, pos=True, prolunga=20)
+
+        listaAumentoSotto = listaAumento.copy()
+        creaLinee(lix, liy, listaAumentoSotto, solido)
+        creaLinee(listax, listay, listaAumento, solido)
+
+    for i in range(len(contenutojson)):
+        if contenutojson[i]["type"] == "planar":
+            nodo += 1
+        if contenutojson[i]["type"] == "solid":
+            solido += 1
+            solid = True
+
+    dim = 150
+
+    img = np.zeros((3000, 3000, 1), np.uint8)
+    img.fill(255)
+
+    crea(nodo, solid, dim)
+
+    cv2.imshow('image', img)
+    cv2.resizeWindow('image', (dim * int(nodo) * 3, dim * int(nodo) * 3))
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
