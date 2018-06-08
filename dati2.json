@@ -1,108 +1,106 @@
 [
    {
       "type":"planar",
-      "width":"120",
-      "height":"120",
+      "width":"100",
+      "height":"150",
       "layers":"3",
       "upperText":[
          "Inputs",
-         "3@29x29"
+         "3@29x240"
       ]
    },
    {
       "type":"connection",
       "bottomText":[
-         "Convolution",
-         "6x6 Kernel"
-      ]
-   },
-   {
-      "type":"planar",
-      "width":"110",
-      "height":"110",
-      "layers":"2",
-      "upperText":[
-         "Feature",
-         "maps",
-         "20@24x24"
-      ]
-   },
-   {
-      "type":"connection",
-      "bottomText":[
-         "Pool(max)",
-         "2x2 Kernel"
-      ]
-   },
-   {
-      "type":"planar",
-      "width":"100",
-      "height":"100",
-      "layers":"20",
-      "upperText":[
-         "Feature",
-         "maps",
-         "20@12x12"
-      ]
-   },
-   {
-      "type":"connection",
-      "bottomText":[
-         "Convolution",
-         "5x5 Kernel"
+         "Conv1",
+         "5x5 Kernel",
+         "+Relu"
       ]
    },
    {
       "type":"planar",
       "width":"90",
-      "height":"90",
-      "layers":"50",
+      "height":"150",
+      "layers":"16",
       "upperText":[
-         "Feature",
-         "maps",
-         "50@8x8"
+         "Inputs",
+         "16@25x236"
+      ]
+   },
+   {
+      "type":"connection",
+      "bottomText":[
+         "Conv2",
+         "5x9 Kernel",
+         "+Relu"
+      ]
+   },
+   {
+      "type":"planar",
+      "width":"80",
+      "height":"130",
+      "layers":"32",
+      "upperText":[
+         "Inputs",
+         "32@21x228"
       ]
    },
    {
       "type":"connection",
       "bottomText":[
          "Pool(max)",
-         "2x2 Kernel"
+         "3x6 Kernel"
       ]
    },
    {
       "type":"planar",
-      "width":"80",
-      "height":"80",
-      "layers":"50",
+      "width":"30",
+      "height":"50",
+      "layers":"32",
       "upperText":[
-         "Feature",
-         "maps",
-         "50@4x4"
+         "Inputs",
+         "32@7x38"
+      ]
+   },
+   {
+      "type":"connection",
+      "bottomText":[
+         "Conv3",
+         "3x9 Kernel",
+         "+Relu"
+      ]
+   },
+   {
+      "type":"planar",
+      "width":"20",
+      "height":"35",
+      "layers":"64",
+      "upperText":[
+         "Inputs",
+         "64@5x30"
       ]
    },
    {
       "type":"connectionSolid",
       "bottomText":[
-         "Convolution",
-         "4x4 Kernel",
-         "+ Relu"
+         "Conv4",
+         "5x30 Kernel",
+         "+Relu"
       ]
    },
    {
       "type":"solid",
       "side":"50",
-      "lenght":"150",
+      "lenght":"100",
       "upperText":[
-         "Feature",
-         "maps",
-         "500@1x1"
+         "Inputs",
+         "96@1x1"
       ]
    },
    {
       "type":"connectionSolid",
       "bottomText":[
-         "Convolution",
+         "Conv5",
          "1x1 Kernel"
       ]
    },
@@ -111,9 +109,8 @@
       "side":"50",
       "lenght":"30",
       "upperText":[
-         "Feature",
-         "maps",
-         "2@1x1"
+         "Inputs",
+         "4@1x1"
       ]
    },
    {
@@ -125,10 +122,10 @@
    {
       "type":"solid",
       "side":"50",
-      "lenght":"30",
+      "lenght":"100",
       "upperText":[
          "Outputs",
-         "2@1x1"
+         "4@1x1"
       ]
    }
 ]
