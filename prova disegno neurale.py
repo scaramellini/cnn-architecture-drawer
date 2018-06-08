@@ -4,7 +4,7 @@ import json
 import math
 from tratteggio_linea import tratteggio
 
-with open("dati.json", "r") as leggi:
+with open("dati2.json", "r") as leggi:
 
     contenutojson = json.load(leggi)
 
@@ -241,7 +241,7 @@ with open("dati.json", "r") as leggi:
         if solid == True:
             lato = creaSolido(listax, listay)
             disegnaRigheSolido(lix, liy, listaSolidoSotto, lato, pos=True, prolunga=20)
-            disegnaRigheSolido(listax, listay, listaSolidoSopra, lato, pos=False, prolunga=0)
+            disegnaRigheSolido(listax, listay, listaSolidoSopra, lato, pos=False, prolunga=-15)
 
         listaAumentoSotto = listaAumento.copy()
         creaLinee(lix, liy, listaAumentoSotto)
@@ -256,14 +256,14 @@ with open("dati.json", "r") as leggi:
 
     dim = 150
 
-    img = np.zeros((4000, 4000, 1), np.uint8)
+    img = np.zeros((1000, 1500, 1), np.uint8)
     img.fill(255)
 
     crea(nodo, solid, dim)
 
     cv2.imshow('image', img)
     cv2.resizeWindow('image', (dim * int(nodo) * 3, dim * int(nodo) * 3))
-
+    cv2.imwrite('cnn_image.jpg',img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 

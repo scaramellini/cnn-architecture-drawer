@@ -1,7 +1,7 @@
 [
    {
       "type":"planar",
-      "width":"120",
+      "width":"60",
       "height":"120",
       "layers":"3",
       "upperText":[
@@ -18,9 +18,9 @@
    },
    {
       "type":"planar",
-      "width":"110",
+      "width":"55",
       "height":"110",
-      "layers":"2",
+      "layers":"20",
       "upperText":[
          "Feature",
          "maps",
@@ -36,7 +36,7 @@
    },
    {
       "type":"planar",
-      "width":"100",
+      "width":"50",
       "height":"100",
       "layers":"20",
       "upperText":[
@@ -54,7 +54,7 @@
    },
    {
       "type":"planar",
-      "width":"90",
+      "width":"45",
       "height":"90",
       "layers":"50",
       "upperText":[
@@ -72,7 +72,7 @@
    },
    {
       "type":"planar",
-      "width":"80",
+      "width":"40",
       "height":"80",
       "layers":"50",
       "upperText":[
@@ -109,7 +109,7 @@
    {
       "type":"solid",
       "side":"50",
-      "lenght":"30",
+      "lenght":"60",
       "upperText":[
          "Feature",
          "maps",
@@ -125,7 +125,7 @@
    {
       "type":"solid",
       "side":"50",
-      "lenght":"30",
+      "lenght":"60",
       "upperText":[
          "Outputs",
          "2@1x1"
